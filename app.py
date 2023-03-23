@@ -76,7 +76,7 @@ def index():
 		dt = DecisionTreeClassifier(random_state=0)
 		dt.fit(features, ifSpam_train)
 		
-		vect = cv.fit_transform(form.url.data).toarray()
+		vect = cv.fit_transform([form.url.data])
                 
 		print(vect)
 
