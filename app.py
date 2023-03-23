@@ -69,7 +69,8 @@ def index():
     
 		ifSpam = url.iloc[:,1]
 
-		urls_train, urls_test, ifSpam_train, ifSpam_test = train_test_split(urls, ifSpam, test_size=0.25)		cv = CountVectorizer(tokenizer=extractUrl)
+		urls_train, urls_test, ifSpam_train, ifSpam_test = train_test_split(urls, ifSpam, test_size=0.25)		
+		cv = CountVectorizer(tokenizer=extractUrl)
 		features = cv.fit_transform(urls_train)
 		feature_test = cv.transform(urls_test)
 		dt = DecisionTreeClassifier(random_state=0)
