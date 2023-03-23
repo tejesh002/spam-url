@@ -4,10 +4,8 @@ from wtforms import StringField
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from wtforms.validators import InputRequired, URL
-import joblib
-from sklearn.naive_bayes import MultinomialNB
-
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 import os
 
 import re
@@ -40,30 +38,42 @@ class LoginForm(Form):
 	url = StringField('Enter URL : ', validators=[InputRequired(), URL()])
 
 
+def extractUrl(data):
+    url = str(data)
+    extractSlash = url.split('/')
+    result = []
+    
+    for i in extractSlash:
+        extractDash = str(i).split('-')
+        dotExtract = []
+        
+        for j in range(0,len(extractDash)):
+            extractDot = str(extractDash[j]).split('.')
+            dotExtract += extractDot
+            
+        result += extractDash + dotExtract
+    result = list(set(result))
+
+    return result
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	form = LoginForm()
 	if form.validate_on_submit():
-		df = pd.read_csv(
+		url = pd.read_csv(
         r"{}/data/spamurl.csv".format(os.getcwd()), encoding="latin-1")
 
-		df.drop(['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], axis=1, inplace=True)
-    	# Features and Labels
-		df['label'] = df['v1']
-		df['message'] = df['v2']
-		df.drop(['v1', 'v2'], axis=1, inplace=True)
-		X = df['message']
-		y = df['label']
-        
-		print(y)
-		cv = CountVectorizer()
-		X = cv.fit_transform(X)  # Fit the Data
-		X_train, X_test, y_train, y_test = train_test_split(
-			X, y, test_size=0.33, random_state=42)
-		# Naive Bayes Classifier
-		clf = MultinomialNB()
-		clf.fit(X_train, y_train)
-		clf.score(X_test, y_test)
+		url['is_spam'] = url['is_spam'].apply(lambda x : 1 if x == "True" in x else 0)
+
+	
+		cv = CountVectorizer(tokenizer=extractUrl)
+    
+		vect = cv.transform([trim(form.url.data)])
+                
+        print(vect) 
+		
+
+	
 		# prediction = model.predict(vectorizer.transform([trim(form.url.data)]))
 
 		# if prediction[0] == 0:
