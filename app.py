@@ -70,8 +70,9 @@ def index():
     
 		vect = cv.transform([trim(form.url.data)])
                 
-        print(vect) 
-		
+                
+		print(vect) 
+
 
 	
 		# prediction = model.predict(vectorizer.transform([trim(form.url.data)]))
