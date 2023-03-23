@@ -80,7 +80,7 @@ def index():
 		vect = cv.fit_transform([form.url.data])
                 
 		print(vect)
-
+		print(dt.predict(vect.toarray()))
 	
 		# prediction = model.predict(vectorizer.transform([trim(form.url.data)]))
 
