@@ -65,11 +65,21 @@ def index():
 
 		url['is_spam'] = url['is_spam'].apply(lambda x : 1 if x == "True" in x else 0)
 
-	
-		cv = CountVectorizer(tokenizer=extractUrl)
+		urls = url.iloc[:,0]
     
-		vect = cv.transform([trim(form.url.data)])
+		ifSpam = url.iloc[:,1]
+
+		X_train, X_test, y_train, y_test = train_test_split(urls, ifSpam, test_size=0.25)
+		cv = CountVectorizer(tokenizer=extractUrl)
                 
+		dt = DecisionTreeClassifier(random_state=0)
+		dt.fit(X_train, y_train)
+		dt.score(X_test, y_test)
+    
+		vect = cv.fit_transform([trim(form.url.data)])
+
+
+		print(dt.predict(vect))
                 
 		print(vect) 
 
