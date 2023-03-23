@@ -1,0 +1,45 @@
+{% from "_formhelpers.html" import render_field %}
+<html>
+<head>
+<title>Malicious URL Detection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="background-image: url('static/bg2.jpg');">
+	<div class="nav bg-dark">
+		<a href="#" class="btn btn-primary">Home</a>
+	</div>
+	<br>
+	<br>
+	<div class="row">
+		<div class="col-sm-12">
+			<h3> <center>Malicious URL Detection Using Machine Learning </center></h3>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<p> Current Model - Logistic Regression. </p>
+			<p> Please enter URL with protocol specified i.e https://www.youtube.com
+			<form method="POST" action="/">
+				<dl>
+				 {{ form.csrf_token }}
+				 {{ render_field(form.url) }}
+				 <input type="submit" value="Check">
+				 </dl>
+			 </form>
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+	
+	
+	
+	
+
+</body>
+</html>
