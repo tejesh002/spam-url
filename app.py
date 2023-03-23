@@ -45,16 +45,17 @@ def index():
 	form = LoginForm()
 	if form.validate_on_submit():
 		df = pd.read_csv(
-        r"{}/data/spam.csv".format(os.getcwd()), encoding="latin-1")
+        r"{}/data/spamurl.csv".format(os.getcwd()), encoding="latin-1")
 
 		df.drop(['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], axis=1, inplace=True)
     	# Features and Labels
-		df['label'] = df['v1'].map({'ham': 0, 'spam': 1})
+		df['label'] = df['v1']
 		df['message'] = df['v2']
 		df.drop(['v1', 'v2'], axis=1, inplace=True)
 		X = df['message']
 		y = df['label']
-                
+        
+		print(y)
 		cv = CountVectorizer()
 		X = cv.fit_transform(X)  # Fit the Data
 		X_train, X_test, y_train, y_test = train_test_split(
