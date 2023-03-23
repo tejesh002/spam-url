@@ -69,20 +69,15 @@ def index():
     
 		ifSpam = url.iloc[:,1]
 
-		X_train, X_test, y_train, y_test = train_test_split(urls, ifSpam, test_size=0.25)
-		cv = CountVectorizer(tokenizer=extractUrl)
-                
+		urls_train, urls_test, ifSpam_train, ifSpam_test = train_test_split(urls, ifSpam, test_size=0.25)		cv = CountVectorizer(tokenizer=extractUrl)
+		features = cv.fit_transform(urls_train)
+		feature_test = cv.transform(urls_test)
 		dt = DecisionTreeClassifier(random_state=0)
-		dt.fit(X_train, y_train)
-		dt.score(X_test, y_test)
-    
-		vect = cv.fit_transform([trim(form.url.data)])
-
-
-		print(dt.predict(vect))
+		dt.fit(features, ifSpam_train)
+		
+		vect = cv.fit_transform(form.url.data).toarray()
                 
-		print(vect) 
-
+		print(vect)
 
 	
 		# prediction = model.predict(vectorizer.transform([trim(form.url.data)]))
